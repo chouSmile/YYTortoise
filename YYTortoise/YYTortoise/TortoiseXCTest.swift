@@ -41,7 +41,17 @@ extension Tortoise {
         }
     }
     
-    
+    /**
+     Add an action that checks, at a fixed interval,
+     if app is run in background, active app.
+     if app is not running at all, launch app.
+     
+     - parameter interval: How often to generate this
+     event. One of these events will be generated after
+     this many randomised events have been generated.
+     - parameter application: The `XCUIApplication` object
+     for the current application.
+     */
     public func addXCTestActiveAppAction(interval: Int, application: XCUIApplication) {
         addAction(interval: interval) {
             // active app if the test app is not running foreground.
@@ -56,11 +66,19 @@ extension Tortoise {
         }
     }
     
-    
+   /**
+     Add an action that checks, at a fixed interval,
+     back to the last page.
+     
+     - parameter interval: How often to generate this
+     event. One of these events will be generated after
+     this many randomised events have been generated.
+     - parameter application: The `XCUIApplication` object
+     for the current application.
+     */
     public func addXCTestTapBackAction(interval: Int, application: XCUIApplication){
         addAction(interval: interval){
             // back to the last page.
-            print("tu1111111111")
             let backButtonList = ["back","back ic normal","whitetheme back ic nor","lightyellowtheme back ic nor","greentheme back ic nor","graytheme back ic nor","darkyellowtheme back ic nor","darktheme back ic nor","top cancel ic normal"]
             let allButton = application.descendants(matching: XCUIElementType.button)
             for i in 0 ..< allButton.count {
