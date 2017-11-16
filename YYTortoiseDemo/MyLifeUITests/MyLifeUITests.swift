@@ -50,7 +50,7 @@ class MyLifeUITests: XCTestCase {
         
         
         //active app
-        tortoise.addXCTestActiveAppAction(interval: 10, application: application)
+        //tortoise.addXCTestActiveAppAction(interval: 10, application: application)
         //back to the last page
         tortoise.addXCTestTapBackAction(interval: 20, application: application)
         
