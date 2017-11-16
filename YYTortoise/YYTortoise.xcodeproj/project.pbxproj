@@ -14,6 +14,7 @@
 		E665B4111FBC36D000135D41 /* TortoiseXCTestPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E665B40C1FBC36D000135D41 /* TortoiseXCTestPrivate.swift */; };
 		E665B4141FBC36F700135D41 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E665B4131FBC36F200135D41 /* XCTest.framework */; };
 		E665B4161FBC370300135D41 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E665B4151FBC36FD00135D41 /* UIKit.framework */; };
+		E67F9FDA1FBD2E670016C852 /* LogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67F9FD91FBD2E670016C852 /* LogUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		E665B40C1FBC36D000135D41 /* TortoiseXCTestPrivate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TortoiseXCTestPrivate.swift; sourceTree = "<group>"; };
 		E665B4131FBC36F200135D41 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E665B4151FBC36FD00135D41 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E67F9FD91FBD2E670016C852 /* LogUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 		E665B3FF1FBC36AB00135D41 /* YYTortoise */ = {
 			isa = PBXGroup;
 			children = (
+				E67F9FD91FBD2E670016C852 /* LogUtils.swift */,
 				E665B40A1FBC36D000135D41 /* Random.swift */,
 				E665B4081FBC36D000135D41 /* Tortoise.swift */,
 				E665B4091FBC36D000135D41 /* TortoiseUIAutomation.swift */,
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E67F9FDA1FBD2E670016C852 /* LogUtils.swift in Sources */,
 				E665B40D1FBC36D000135D41 /* Tortoise.swift in Sources */,
 				E665B40E1FBC36D000135D41 /* TortoiseUIAutomation.swift in Sources */,
 				E665B40F1FBC36D000135D41 /* Random.swift in Sources */,
