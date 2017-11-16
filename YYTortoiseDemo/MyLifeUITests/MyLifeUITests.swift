@@ -47,6 +47,15 @@ class MyLifeUITests: XCTestCase {
         tortoise.addDefaultXCTestPrivateActions()
         tortoise.addXCTestTapAlertAction(interval: 100, application: application)
         
+        
+        
+        
+        tortoise.addXCTestActiveAppAction(interval: 10, application: application)
+        tortoise.addXCTestTapBackAction(interval: 20, application: application)
+        
+        
+        
+        
         // Run the monkey test indefinitely.
         //        monkey.monkeyAround()
         // Run the monkey test definitely.

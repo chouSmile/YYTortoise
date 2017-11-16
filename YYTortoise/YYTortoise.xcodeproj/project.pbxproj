@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E638E93B1FBD694D00F4C83D /* XCUIElement+ForceTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = E638E93A1FBD694D00F4C83D /* XCUIElement+ForceTap.swift */; };
 		E665B40D1FBC36D000135D41 /* Tortoise.swift in Sources */ = {isa = PBXBuildFile; fileRef = E665B4081FBC36D000135D41 /* Tortoise.swift */; };
 		E665B40E1FBC36D000135D41 /* TortoiseUIAutomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E665B4091FBC36D000135D41 /* TortoiseUIAutomation.swift */; };
 		E665B40F1FBC36D000135D41 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = E665B40A1FBC36D000135D41 /* Random.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E638E93A1FBD694D00F4C83D /* XCUIElement+ForceTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+ForceTap.swift"; sourceTree = "<group>"; };
 		E665B3FD1FBC36AB00135D41 /* YYTortoise.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YYTortoise.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E665B4011FBC36AB00135D41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E665B4081FBC36D000135D41 /* Tortoise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tortoise.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				E665B40B1FBC36D000135D41 /* TortoiseXCTest.swift */,
 				E665B40C1FBC36D000135D41 /* TortoiseXCTestPrivate.swift */,
 				E665B4011FBC36AB00135D41 /* Info.plist */,
+				E638E93A1FBD694D00F4C83D /* XCUIElement+ForceTap.swift */,
 			);
 			path = YYTortoise;
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 				E665B40F1FBC36D000135D41 /* Random.swift in Sources */,
 				E665B4101FBC36D000135D41 /* TortoiseXCTest.swift in Sources */,
 				E665B4111FBC36D000135D41 /* TortoiseXCTestPrivate.swift in Sources */,
+				E638E93B1FBD694D00F4C83D /* XCUIElement+ForceTap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

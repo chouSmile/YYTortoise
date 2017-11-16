@@ -40,4 +40,41 @@ extension Tortoise {
             }
         }
     }
+    
+    
+    public func addXCTestActiveAppAction(interval: Int, application: XCUIApplication) {
+        addAction(interval: interval) {
+            // active app if the test app is not running foreground.
+            if(application.state.rawValue == 2 || application.state.rawValue == 3)
+            {
+                application.activate()
+            }
+            if (application.state.rawValue == 0 || application.state.rawValue == 2 )
+            {
+                application.launch()
+            }
+        }
+    }
+    
+    
+    public func addXCTestTapBackAction(interval: Int, application: XCUIApplication){
+        addAction(interval: interval){
+            // back to the last page.
+            print("tu1111111111")
+            let backButtonList = ["back","back ic normal","whitetheme back ic nor","lightyellowtheme back ic nor","greentheme back ic nor","graytheme back ic nor","darkyellowtheme back ic nor","darktheme back ic nor","top cancel ic normal"]
+            let allButton = application.descendants(matching: XCUIElementType.button)
+            for i in 0 ..< allButton.count {
+                let button = allButton.element(boundBy: i)
+                print("tu button title",button.label)
+                if backButtonList.contains(button.label) {
+                    button.forceTapElement()
+                    break
+                }
+            }
+        }
+    }
+    
+    
+    
+    
 }
