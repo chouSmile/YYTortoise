@@ -55,10 +55,13 @@ extension Tortoise {
     public func addXCTestActiveAppAction(interval: Int, application: XCUIApplication) {
         addAction(interval: interval) {
             // active app if the test app is not running foreground.
+            //2:runningBackgroundSuspended; 3:runningBackground
             if(application.state.rawValue == 2 || application.state.rawValue == 3)
             {
                 application.activate()
             }
+
+            //0:unknown; 1:notRunning
             if (application.state.rawValue == 0 || application.state.rawValue == 1 )
             {
                 application.launch()
