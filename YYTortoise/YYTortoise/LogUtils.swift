@@ -20,7 +20,7 @@ public class LogUtils {
         //获取文件名
         let fileName = (file as NSString).lastPathComponent
         //日志内容
-        let consoleStr = "\(fileName):\(line) \(function) | \(message)"
+        let consoleStr = "\(message)"
         //打印日志内容
         print(consoleStr)
         
@@ -34,9 +34,9 @@ public class LogUtils {
         //将内容同步写到文件中去（Documents文件夹下）
         let documentPath = FileManager.default.urls(for: .documentDirectory,
                                                     in: .userDomainMask)[0]
-        let logURL = documentPath.appendingPathComponent("monkeyLog.txt")
+        let logURL = documentPath.appendingPathComponent("test.txt")
         print("*********document path*********\(logURL)")
-        appendText(fileURL: logURL, string: "\(datestr) \(consoleStr)")
+        appendText(fileURL: logURL, string: "\(consoleStr)")
     }
     
     //在文件末尾追加新内容
@@ -48,7 +48,7 @@ public class LogUtils {
             }
             
             let fileHandle = try FileHandle(forWritingTo: fileURL)
-            let stringToWrite = "\n" + string
+            let stringToWrite = string + "\n"
             
             //找到末尾位置并添加
             fileHandle.seekToEndOfFile()
@@ -57,6 +57,25 @@ public class LogUtils {
         } catch let error as NSError {
             print("failed to append: \(error)")
         }
+    }
+    
+    class func getFileContent(fileName: String) -> String{
+        let documentPath = FileManager.default.urls(for: .documentDirectory,
+                                                    in: .userDomainMask)[0]
+        let file = documentPath.appendingPathComponent(fileName)
+        let readHandler = try! FileHandle(forReadingFrom:file)
+        let data = readHandler.readDataToEndOfFile()
+        let readString = String(data: data, encoding: String.Encoding.utf8)
+        //print("文件内容: \(readString!)")
+        return readString!
+    }
+    
+    class func convertToDict(_ str: String) -> [String : Any]?{
+        let data = str.data(using: String.Encoding.utf8)
+        if let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any] {
+            return dict
+        }
+        return nil
     }
     
 }

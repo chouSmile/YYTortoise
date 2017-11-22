@@ -44,6 +44,100 @@ extension Tortoise {
         //addXCTestOrientationAction(weight: 1) // TODO: Investigate why this does not work.
     }
     
+    public func addPlayXCTestPrivateActions(trackActions: [[String: Any]]) {
+        for action in trackActions {
+            print("*** test ***: \(action)")
+            print("*** test ***: \(type(of: action))")
+            switch action["type"] as! String {
+            case "tap":
+                addPlayXCTestTapAction(locations: action["locations"] as! [CGPoint], numbersOfTaps: action["numbersOfTaps"] as! UInt)
+            case "LongPress":
+                addPlayXCTestLongPressAction(location: action["location"] as! CGPoint)
+            case "Drag":
+                addPlayXCTestDragAction(start: action["start"] as! CGPoint, end: action["end"] as! CGPoint)
+            case "PinchOpen":
+                addPlayXCTestPinchOpenAction(rect: action["rect"] as! CGRect, scale: action["scale"] as! CGFloat)
+            case "PinchClose":
+                addPlayXCTestPinchCloseAction(rect: action["rect"] as! CGRect, scale: action["scale"] as! CGFloat)
+            case "":
+                addPlayXCTestRotateAction(rect: action["rect"] as! CGRect, angle: action["angle"] as! CGFloat)
+            default:
+                print("*** error ***")
+            }
+        }
+    }
+    
+    // 回放Tap操作
+    public func addPlayXCTestTapAction(locations: [CGPoint], numbersOfTaps: UInt) {
+        addPlayAction(actType: "Tap") { [weak self] in
+            let semaphore = DispatchSemaphore(value: 0)
+            self!.sharedXCEventGenerator.tapAtTouchLocations(locations, numberOfTaps: numbersOfTaps, orientation: orientationValue) {
+                semaphore.signal()
+            }
+            semaphore.wait()
+        }
+    }
+    
+    
+    // 回放LongPress操作
+    public func addPlayXCTestLongPressAction(location: CGPoint) {
+        addPlayAction(actType: "Press") { [weak self] in
+            let semaphore = DispatchSemaphore(value: 0)
+            self!.sharedXCEventGenerator.pressAtPoint(location, forDuration: 0.5, orientation: orientationValue) {
+                semaphore.signal()
+            }
+            semaphore.wait()
+        }
+    }
+    
+    
+    // 回放Drag操作
+    public func addPlayXCTestDragAction(start: CGPoint, end: CGPoint) {
+        addPlayAction(actType: "Drag") { [weak self] in
+            let semaphore = DispatchSemaphore(value: 0)
+            self!.sharedXCEventGenerator.pressAtPoint(start, forDuration: 0, liftAtPoint: end, velocity: 1000, orientation: orientationValue, name: "Monkey drag" as NSString) {
+                semaphore.signal()
+            }
+            semaphore.wait()
+        }
+    }
+    
+    
+    // 回放PinchClose操作
+    public func addPlayXCTestPinchCloseAction(rect: CGRect, scale: CGFloat) {
+        addPlayAction(actType: "PinchClose") { [weak self] in
+            let semaphore = DispatchSemaphore(value: 0)
+            self!.sharedXCEventGenerator.pinchInRect(rect, withScale: scale, velocity: 1, orientation: orientationValue) {
+                semaphore.signal()
+            }
+            semaphore.wait()
+        }
+    }
+    
+    
+    // 回放PinchOpen操作
+    public func addPlayXCTestPinchOpenAction(rect: CGRect, scale: CGFloat) {
+        addPlayAction(actType: "PinchOpen") { [weak self] in
+            let semaphore = DispatchSemaphore(value: 0)
+            self!.sharedXCEventGenerator.pinchInRect(rect, withScale: scale, velocity: 3, orientation: orientationValue) {
+                semaphore.signal()
+            }
+            semaphore.wait()
+        }
+    }
+    
+    
+    // 回放Rotate操作
+    public func addPlayXCTestRotateAction(rect: CGRect, angle: CGFloat) {
+        addPlayAction(actType: "Rotate") { [weak self] in
+            let semaphore = DispatchSemaphore(value: 0)
+            self!.sharedXCEventGenerator.rotateInRect(rect, withRotation: angle, velocity: 5, orientation: orientationValue) {
+                semaphore.signal()
+            }
+            semaphore.wait()
+        }
+    }
+    
     /**
      Add an action that generates a tap, with a possibility for
      multiple taps with multiple fingers, using the private
@@ -80,7 +174,9 @@ extension Tortoise {
             }
             
             let semaphore = DispatchSemaphore(value: 0)
+            print("*** tap args ***: locations = \(locations) numberOfTaps = \(numberOfTaps)")
             self!.sharedXCEventGenerator.tapAtTouchLocations(locations, numberOfTaps: numberOfTaps, orientation: orientationValue) {
+                LogUtils.CHULog(["type":"Tap", "locations":"\(locations)", "numberOfTaps":"\(numberOfTaps)"])
                 semaphore.signal()
             }
             semaphore.wait()
@@ -100,7 +196,9 @@ extension Tortoise {
         addAction(weight: weight) { [weak self] in
             let point = self!.randomPoint()
             let semaphore = DispatchSemaphore(value: 0)
+            print("*** LongPress agrs ***: point = \(point)")
             self!.sharedXCEventGenerator.pressAtPoint(point, forDuration: 0.5, orientation: orientationValue) {
+                LogUtils.CHULog(["type":"LongPress", "point":"\(point)"])
                 semaphore.signal()
             }
             semaphore.wait()
@@ -122,7 +220,9 @@ extension Tortoise {
             let end = self!.randomPoint()
             
             let semaphore = DispatchSemaphore(value: 0)
+            print("*** Drag agrs ***: start = \(start) end = \(end)")
             self!.sharedXCEventGenerator.pressAtPoint(start, forDuration: 0, liftAtPoint: end, velocity: 1000, orientation: orientationValue, name: "Tortoise drag" as NSString) {
+                LogUtils.CHULog(["type":"Drag", "start":"\(start)", "end":"\(end)"])
                 semaphore.signal()
             }
             semaphore.wait()
@@ -144,7 +244,10 @@ extension Tortoise {
             let scale = 1 / CGFloat(self!.r.randomDouble() * 4 + 1)
             
             let semaphore = DispatchSemaphore(value: 0)
+            print("*** PinchClose agrs ***: rect = \(rect) scale = \(scale)")
             self!.sharedXCEventGenerator.pinchInRect(rect, withScale: scale, velocity: 1, orientation: orientationValue) {
+                LogUtils.CHULog(["type":"PinchClose", "rect":"\(rect)", "scale":"\(scale)"])
+                
                 semaphore.signal()
             }
             semaphore.wait()
@@ -166,7 +269,9 @@ extension Tortoise {
             let scale = CGFloat(self!.r.randomDouble() * 4 + 1)
             
             let semaphore = DispatchSemaphore(value: 0)
+            print("*** PinchOpen agrs ***: rect = \(rect) scale = \(scale)")
             self!.sharedXCEventGenerator.pinchInRect(rect, withScale: scale, velocity: 3, orientation: orientationValue) {
+                LogUtils.CHULog(["type":"PinchOpen", "rect":"\(rect)", "scale":"\(scale)"])
                 semaphore.signal()
             }
             semaphore.wait()
@@ -187,9 +292,10 @@ extension Tortoise {
         addAction(weight: weight) { [weak self] in
             let rect = self!.randomRect(sizeFraction: 2)
             let angle = CGFloat(self!.r.randomDouble() * 2 * 3.141592)
-            
             let semaphore = DispatchSemaphore(value: 0)
+            print("*** Rotate agrs ***: rect = \(rect) angle = \(angle)")
             self!.sharedXCEventGenerator.rotateInRect(rect, withRotation: angle, velocity: 5, orientation: orientationValue) {
+                LogUtils.CHULog(["type":"Rotate", "rect":"\(rect)", "angle":"\(angle)"])
                 semaphore.signal()
             }
             semaphore.wait()
