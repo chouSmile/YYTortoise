@@ -35,12 +35,6 @@ class MyLifeUITests: XCTestCase {
         
         let application = XCUIApplication()
         
-//        let allElements = application.descendants(matching: .any)
-//        for i in 0..<allElements.count {
-//            let element = allElements.element(boundBy: i)
-//            print("*******chouchou\(element.debugDescription)")
-//        }
-        
         _ = application.descendants(matching: .any).element(boundBy: 0).frame
         
         let tortoise = Tortoise(frame: application.frame)
@@ -60,12 +54,22 @@ class MyLifeUITests: XCTestCase {
         // Run the monkey test indefinitely.
         //        monkey.monkeyAround()
         // Run the monkey test definitely.
-        tortoise.tortoiseAround(iterations: 20)
+        tortoise.tortoiseAround(iterations: 30)
 //        let allElements1 = application.descendants(matching: .any)
-//        for i in 0..<allElements.count {
-//            let element = allElements1.element(boundBy: i)
-//            print("*******chouchou\(element.debugDescription)")
-//        }
     }
+    
+    func testReplay() {
+        let application = XCUIApplication()
+        _ = application.descendants(matching: .any).element(boundBy: 0).frame
+        
+        let tortoise = Tortoise(frame: application.frame)
+        
+        let trackActions = tortoise.getActions(fileName: "test.txt")
+        print("*** test ***: \(trackActions[0]["start"])")
+        print("*** test ***: \(type(of: trackActions[0]["start"]))")
+        tortoise.addPlayXCTestPrivateActions(trackActions: trackActions)
+        tortoise.playRandomly()
+    }
+
     
 }

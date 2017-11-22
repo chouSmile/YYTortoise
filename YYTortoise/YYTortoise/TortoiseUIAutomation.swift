@@ -63,7 +63,10 @@ extension Tortoise {
      */
     public func addUIAutomationSingleTapAction(weight: Double) {
         addAction(weight: weight) { [weak self] in
-            eventGenerator.sendTap(self!.randomPoint())
+            //eventGenerator.sendTap(self!.randomPoint())
+            let location: CGPoint
+            location = self!.randomPoint()
+            eventGenerator.sendTap(location)
         }
     }
     
