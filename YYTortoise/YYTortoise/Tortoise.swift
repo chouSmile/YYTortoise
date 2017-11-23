@@ -223,8 +223,17 @@ public class Tortoise {
                 return
             }
             let closure: ActionClosure = {
-                if XCUIApplication().state != .runningForeground {
-                    XCUIApplication().activate()
+                let application = XCUIApplication()
+                //2:runningBackgroundSuspended; 3:runningBackground
+                if(application.state.rawValue == 2 || application.state.rawValue == 3)
+                {
+                    application.activate()
+                }
+                
+                //0:unknown; 1:notRunning
+                if (application.state.rawValue == 0 || application.state.rawValue == 1 )
+                {
+                    application.launch()
                 }
                 action()
             }
