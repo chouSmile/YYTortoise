@@ -71,6 +71,9 @@ public class Tortoise {
     var regularActions: [(interval: Int, action: ActionClosure)]
     var actionCounter = 0
     
+    // 用于回放monkey的操作步骤
+    var playActions: [(actType: String, action: ActionClosure)]
+    
     /**
      Create a Tortoise object with a randomised seed.
      This instance will generate a different stream of
@@ -134,6 +137,8 @@ public class Tortoise {
         self.randomActions = []
         self.totalWeight = 0
         self.regularActions = []
+        
+        self.playActions = []
     }
     
     /**
@@ -162,10 +167,37 @@ public class Tortoise {
         } while ((Date().timeIntervalSince1970 - tortoiseTestingTime) < duration)
     }
     
+    public func playRandomly() {
+        for action in playActions {
+            action.action()
+        }
+    }
+    
+    public func getActions(fileName: String) -> [[String: Any]]{
+        let trackData = LogUtils.getFileContent(fileName: fileName)
+        let tracks = trackData.components(separatedBy: NSCharacterSet.newlines)
+        var trackActions: [[String: Any]]
+        trackActions = []
+        for action in tracks {
+            if action.isEmpty {
+                print("str is empty")
+            } else {
+                var str = action
+                str.remove(at: str.index(before: str.endIndex))
+                str.remove(at: str.startIndex)
+                str.insert("{", at: str.startIndex)
+                str.insert("}", at: str.endIndex)
+                trackActions.append(LogUtils.convertToDict(str)!)
+            }
+        }
+        return trackActions
+    }
+    
     /// Generate one random event.
     public func actRandomly() {
         let x = r.randomDouble() * totalWeight
         for action in randomActions {
+            print("******test******:x = \(x),actionWeight = \(action.accumulatedWeight)")
             if x < action.accumulatedWeight {
                 action.action()
                 return
@@ -212,6 +244,11 @@ public class Tortoise {
         regularActions.append((interval: interval, action: actInForeground(action)))
     }
     
+    public func addPlayAction(actType: String, action: @escaping ActionClosure) {
+        playActions.append((actType: actType, action: actInForeground(action)))
+    }
+    
+    
     /**
      Wrap your action with this function to make sure your actions are dispatched inside the app under test
      and not in some other app that the Tortoise randomly opened.
@@ -239,8 +276,10 @@ public class Tortoise {
             }
             if Thread.isMainThread {
                 closure()
+                print("******test******:closure1")
             } else {
                 DispatchQueue.main.async(execute: closure)
+                print("******test******:closure2")
             }
         }
     }
