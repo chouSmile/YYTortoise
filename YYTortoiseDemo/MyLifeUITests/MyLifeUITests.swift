@@ -46,9 +46,7 @@ class MyLifeUITests: XCTestCase {
         //active app
         //tortoise.addXCTestActiveAppAction(interval: 10, application: application)
         //back to the last page
-        tortoise.addXCTestTapBackAction(interval: 20, application: application)
-        
-        
+//        tortoise.addXCTestTapBackAction(interval: 20, application: application)
         
         
         // Run the monkey test indefinitely.
@@ -65,8 +63,14 @@ class MyLifeUITests: XCTestCase {
         let tortoise = Tortoise(frame: application.frame)
         
         let trackActions = tortoise.getActions(fileName: "test.txt")
-        print("*** test ***: \(trackActions[0]["start"])")
+        
+//        let dict = ["type": "Drag", "start": (89.9332805620506, 270.918344760314), "end": (155.43408228457, 81.1308166086674)] as [String : Any]
+        print("*** test ***: \(type(of: trackActions[0]))")
         print("*** test ***: \(type(of: trackActions[0]["start"]))")
+        let tuple = trackActions[0]["start"] as! (Double, Double)
+        let point = CGPoint(x: tuple.0, y: tuple.1)
+        print("*** test ***: \(point)")
+        
         tortoise.addPlayXCTestPrivateActions(trackActions: trackActions)
         tortoise.playRandomly()
     }

@@ -44,29 +44,43 @@ extension Tortoise {
         //addXCTestOrientationAction(weight: 1) // TODO: Investigate why this does not work.
     }
     
-    public func addPlayXCTestPrivateActions(trackActions: [[String: Any]]) {
+    public func addPlayXCTestPrivateActions(trackActions: [NSDictionary]) {
         for action in trackActions {
             print("*** test ***: \(action)")
             print("*** test ***: \(type(of: action))")
             switch action["type"] as! String {
             case "tap":
-                addPlayXCTestTapAction(locations: action["locations"] as! [CGPoint], numbersOfTaps: action["numbersOfTaps"] as! UInt)
+                let locs: (Double, Double) = action["locations"] as! (Double, Double)
+                let locsPoint = CGPoint(x:locs.0, y:locs.1)
+                addPlayXCTestTapAction(locations: [locsPoint], numbersOfTaps: action["numbersOfTaps"] as! UInt)
             case "LongPress":
-                addPlayXCTestLongPressAction(location: action["location"] as! CGPoint)
+                let locs: (Double, Double) = action["location"] as! (Double, Double)
+                let locsPoint = CGPoint(x:locs.0, y:locs.1)
+                addPlayXCTestLongPressAction(location: locsPoint)
             case "Drag":
-                addPlayXCTestDragAction(start: action["start"] as! CGPoint, end: action["end"] as! CGPoint)
+                let start: (Double, Double) = action["start"] as! (Double, Double)
+                let startPoint = CGPoint(x:start.0, y:start.1)
+                let end: (Double, Double) = action["end"] as! (Double, Double)
+                let endPoint = CGPoint(x:end.0, y:end.1)
+                addPlayXCTestDragAction(start: startPoint, end: endPoint)
             case "PinchOpen":
-                addPlayXCTestPinchOpenAction(rect: action["rect"] as! CGRect, scale: action["scale"] as! CGFloat)
+                let tuple: (CGFloat, CGFloat, CGFloat, CGFloat) = action["rect"] as! (CGFloat, CGFloat, CGFloat, CGFloat)
+                let rect = CGRect(x: tuple.0, y: tuple.1, width: tuple.2, height: tuple.3)
+                addPlayXCTestPinchOpenAction(rect: rect, scale: action["scale"] as! CGFloat)
             case "PinchClose":
-                addPlayXCTestPinchCloseAction(rect: action["rect"] as! CGRect, scale: action["scale"] as! CGFloat)
+                let tuple: (CGFloat, CGFloat, CGFloat, CGFloat) = action["rect"] as! (CGFloat, CGFloat, CGFloat, CGFloat)
+                let rect = CGRect(x: tuple.0, y: tuple.1, width: tuple.2, height: tuple.3)
+                addPlayXCTestPinchCloseAction(rect: rect, scale: action["scale"] as! CGFloat)
             case "":
-                addPlayXCTestRotateAction(rect: action["rect"] as! CGRect, angle: action["angle"] as! CGFloat)
+                let tuple: (CGFloat, CGFloat, CGFloat, CGFloat) = action["rect"] as! (CGFloat, CGFloat, CGFloat, CGFloat)
+                let rect = CGRect(x: tuple.0, y: tuple.1, width: tuple.2, height: tuple.3)
+                addPlayXCTestRotateAction(rect: rect, angle: action["angle"] as! CGFloat)
             default:
                 print("*** error ***")
             }
         }
     }
-    
+
     // 回放Tap操作
     public func addPlayXCTestTapAction(locations: [CGPoint], numbersOfTaps: UInt) {
         addPlayAction(actType: "Tap") { [weak self] in

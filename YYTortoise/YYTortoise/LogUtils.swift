@@ -70,12 +70,18 @@ public class LogUtils {
         return readString!
     }
     
-    class func convertToDict(_ str: String) -> [String : Any]?{
-        let data = str.data(using: String.Encoding.utf8)
-        if let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any] {
-            return dict
+    class func convertToDict(_ str: String) -> NSDictionary {
+//        let data = str.data(using: String.Encoding.utf8)
+//        if let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any] {
+//            return dict
+//        }
+//        return nil
+        
+        let jsonData:Data = str.data(using: .utf8)!
+        let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
+        if dict != nil {
+            return dict as! NSDictionary
         }
-        return nil
+        return NSDictionary()
     }
-    
 }

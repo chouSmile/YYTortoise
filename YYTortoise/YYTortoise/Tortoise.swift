@@ -173,10 +173,10 @@ public class Tortoise {
         }
     }
     
-    public func getActions(fileName: String) -> [[String: Any]]{
+    public func getActions(fileName: String) -> [NSDictionary]{
         let trackData = LogUtils.getFileContent(fileName: fileName)
         let tracks = trackData.components(separatedBy: NSCharacterSet.newlines)
-        var trackActions: [[String: Any]]
+        var trackActions: [NSDictionary]
         trackActions = []
         for action in tracks {
             if action.isEmpty {
@@ -187,7 +187,7 @@ public class Tortoise {
                 str.remove(at: str.startIndex)
                 str.insert("{", at: str.startIndex)
                 str.insert("}", at: str.endIndex)
-                trackActions.append(LogUtils.convertToDict(str)!)
+                trackActions.append(LogUtils.convertToDict(str))
             }
         }
         return trackActions
