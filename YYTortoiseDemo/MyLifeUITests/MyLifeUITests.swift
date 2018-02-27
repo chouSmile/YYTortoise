@@ -75,5 +75,9 @@ class MyLifeUITests: XCTestCase {
         tortoise.playRandomly()
     }
 
+//test to  chouchou
+//hello,beauty.
+ func testHello() {
+    }
     
 }
